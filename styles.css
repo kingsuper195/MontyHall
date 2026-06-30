@@ -1,0 +1,39 @@
+.door {
+    background-color: brown;
+    width: 23%;
+    height: 50em;
+    display: inline-block;
+    border-color: black;
+    border-width: 1em;
+    border-style: double;
+    padding: 1em;
+    margin: 1em;
+}
+
+.number {
+    font-size: 2em;
+}
+
+.handle {
+    background-color: black;
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
+    top: 50%;
+    left: 92%;
+    position: relative;
+}
+
+#doors {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+button {
+    margin: 0.2em;
+}
+
+#results {
+    display: none;
+}
