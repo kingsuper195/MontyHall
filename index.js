@@ -7,7 +7,13 @@ function adv1() { roundStageTwo(1) }
 function adv2() { roundStageTwo(2) }
 function adv3() { roundStageTwo(3) }
 async function initRound() {
+    document.querySelector("#startview").style.display = "none";
+    document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator Round <span id="roundnumber"></span>`
+    document.querySelector("#doorview").style.display = "block";
     document.querySelector("#roundnumber").innerHTML = `${rounds.length + 1}`
+    document.querySelector(`#door1 > .door-front`).style.transform = "";
+    document.querySelector(`#door2 > .door-front`).style.transform = "";
+    document.querySelector(`#door3 > .door-front`).style.transform = "";
     carDoor = Math.floor(Math.random() * 3) + 1;
     let p = document.querySelector("#prompt");
     p.innerHTML = "";
@@ -21,12 +27,9 @@ async function initRound() {
 }
 
 async function seeResults() {
-    document.querySelector("#prompt").remove();
-    document.querySelector("#door1").remove();
-    document.querySelector("#door2").remove();
-    document.querySelector("#door3").remove();
+    document.querySelector("#doorview").style.display = "none";
     document.querySelector("h1").innerHTML = "Monty Hall Problem Simulator Results"
-    document.querySelector("#results").style.display = "block";
+    document.querySelector("#resultview").style.display = "block";
     let goats = 0;
     for (let i = 0; i < rounds.length; i++) {
         let round = rounds[i];
@@ -54,7 +57,7 @@ async function seeResults() {
     };
     let pc = document.createElement("span");
     pc.innerText = `You got the goat ${Math.round((goats / rounds.length) * 100)}% of the time.`;
-    document.body.appendChild(pc);
+    document.querySelector("#resultview").appendChild(pc);
 }
 
 async function roundStageTwo(door) {
@@ -87,6 +90,10 @@ async function roundStageTwo(door) {
             `> The host opens door ${goatDoor}, to reveal a goat. He asks if you wish to switch from your current door (door ${playerDoor}) to door ${switchDoor}.`
         )
     );
+    console.log(`#door${goatDoor} > .door-front`)
+    // Goat image under public domain from https://commons.wikimedia.org/wiki/File:Goat_cartoon_04.svg. Attribution given but not required.
+    document.querySelector(`#door${goatDoor} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Goat_cartoon_04.svg")
+    document.querySelector(`#door${goatDoor} > .door-front`).style.transform = "rotateY(-160deg)";
     let yes = document.createElement("button");
     yes.id = "yes";
     yes.innerText = "Switch";
@@ -110,10 +117,14 @@ async function roundStageThree(switched) {
     if (door == carDoor) {
         rounds.push({ "gotcar": true, "switched": switched });
         div.appendChild(document.createTextNode(`> The judge opens door ${door} to reveal a stupid car!`));
+        // Car image under public domain from  https://commons.wikimedia.org/wiki/File:Sedan-car.svg. Attribution given but not required.
+        document.querySelector(`#door${door} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/4/43/Sedan-car.svg");
     } else {
         rounds.push({ "gotcar": false, "switched": switched });
-        div.appendChild(document.createTextNode(`> The judge opens door ${door} to reveal your beautiful new pet goat!`))
+        div.appendChild(document.createTextNode(`> The judge opens door ${door} to reveal your beautiful new pet goat!`));
+        document.querySelector(`#door${door} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Goat_cartoon_04.svg");
     }
+    document.querySelector(`#door${door} > .door-front`).style.transform = "rotateY(-160deg)";
     let newRound = document.createElement("button");
     newRound.id = "newround";
     newRound.innerText = "New Round";
@@ -128,4 +139,5 @@ async function roundStageThree(switched) {
     document.querySelector("#seeresults").addEventListener("mousedown", seeResults);
 }
 
-initRound();
+document.querySelector("#start").addEventListener("click",initRound);
+
