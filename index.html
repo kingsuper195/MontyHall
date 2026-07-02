@@ -11,7 +11,13 @@
 <body>
     <h1>Monty Hall Problem Simulator</h1>
     <div id="startview">
-        <button id="start">Begin</button>
+        <form action="javascript:;" onsubmit=" begin( this )">
+            <label for="auto">Automatic:</label>
+            <input name="auto" id="auto" type="checkbox"><br>
+            <label for="maxrounds">Max Rounds:</label>
+            <input name="maxrounds" id="maxrounds" type="number" placeholder="100"><br>
+            <input type="submit" value="Begin">
+        </form>
     </div>
     <div id="doorview">
         <div id="prompt"></div>

@@ -2,6 +2,8 @@ let carDoor;
 let goatDoor;
 let switchDoor;
 let playerDoor;
+let auto = false;
+let maxRounds = 100;
 let rounds = [];
 function adv1() { roundStageTwo(1) }
 function adv2() { roundStageTwo(2) }
@@ -20,9 +22,13 @@ async function initRound() {
     const div = document.createElement("div");
     div.appendChild(document.createTextNode("> Select a door."));
     p.appendChild(div);
-    document.querySelector("#door1").addEventListener("mousedown", adv1);
-    document.querySelector("#door2").addEventListener("mousedown", adv2);
-    document.querySelector("#door3").addEventListener("mousedown", adv3);
+    if (!auto) {
+        document.querySelector("#door1").addEventListener("mousedown", adv1);
+        document.querySelector("#door2").addEventListener("mousedown", adv2);
+        document.querySelector("#door3").addEventListener("mousedown", adv3);
+    } else {
+        adv1();
+    }
 
 }
 
@@ -61,9 +67,11 @@ async function seeResults() {
 }
 
 async function roundStageTwo(door) {
-    document.querySelector("#door1").removeEventListener("mousedown", adv1);
-    document.querySelector("#door2").removeEventListener("mousedown", adv2);
-    document.querySelector("#door3").removeEventListener("mousedown", adv3);
+    if (!auto) {
+        document.querySelector("#door1").removeEventListener("mousedown", adv1);
+        document.querySelector("#door2").removeEventListener("mousedown", adv2);
+        document.querySelector("#door3").removeEventListener("mousedown", adv3);
+    }
     playerDoor = door;
     let p = document.querySelector("#prompt");
     let goatDoorId = 1;
@@ -94,22 +102,30 @@ async function roundStageTwo(door) {
     // Goat image under public domain from https://commons.wikimedia.org/wiki/File:Goat_cartoon_04.svg. Attribution given but not required.
     document.querySelector(`#door${goatDoor} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Goat_cartoon_04.svg")
     document.querySelector(`#door${goatDoor} > .door-front`).style.transform = "rotateY(-160deg)";
-    let yes = document.createElement("button");
-    yes.id = "yes";
-    yes.innerText = "Switch";
-    div.appendChild(yes);
-    let no = document.createElement("button");
-    no.id = "no";
-    no.innerText = "Stay";
-    div.appendChild(no);
+    if (!auto) {
+        let yes = document.createElement("button");
+        yes.id = "yes";
+        yes.innerText = "Switch";
+        div.appendChild(yes);
+        let no = document.createElement("button");
+        no.id = "no";
+        no.innerText = "Stay";
+        div.appendChild(no);
+    }
     p.appendChild(div);
-    document.querySelector("#yes").addEventListener("mousedown", () => { roundStageThree(true) });
-    document.querySelector("#no").addEventListener("mousedown", () => { roundStageThree(false) });
+    if (!auto) {
+        document.querySelector("#yes").addEventListener("mousedown", () => { roundStageThree(true) });
+        document.querySelector("#no").addEventListener("mousedown", () => { roundStageThree(false) });
+    } else {
+        roundStageThree(false);
+    }
 }
 
 async function roundStageThree(switched) {
-    document.querySelector("#yes").remove();
-    document.querySelector("#no").remove();
+    if (!auto) {
+        document.querySelector("#yes").remove();
+        document.querySelector("#no").remove();
+    }
     let door;
     if (switched) { door = switchDoor; } else { door = playerDoor; }
     let p = document.querySelector("#prompt");
@@ -125,19 +141,43 @@ async function roundStageThree(switched) {
         document.querySelector(`#door${door} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Goat_cartoon_04.svg");
     }
     document.querySelector(`#door${door} > .door-front`).style.transform = "rotateY(-160deg)";
-    let newRound = document.createElement("button");
-    newRound.id = "newround";
-    newRound.innerText = "New Round";
-    div.appendChild(newRound);
-    let seeResultsBtn = document.createElement("button");
-    seeResultsBtn.id = "seeresults";
-    seeResultsBtn.innerText = "See Results";
-    div.appendChild(seeResultsBtn);
-    p.appendChild(div);
+    if (!auto) {
+        if (rounds.length < maxRounds) {
+            let newRound = document.createElement("button");
+            newRound.id = "newround";
+            newRound.innerText = "New Round";
+            div.appendChild(newRound);
+        }
+        let seeResultsBtn = document.createElement("button");
+        seeResultsBtn.id = "seeresults";
+        seeResultsBtn.innerText = "See Results";
+        div.appendChild(seeResultsBtn);
 
-    document.querySelector("#newround").addEventListener("mousedown", initRound);
-    document.querySelector("#seeresults").addEventListener("mousedown", seeResults);
+    }
+    p.appendChild(div);
+    if (!auto) {
+        if (rounds.length < maxRounds) {
+            document.querySelector("#newround").addEventListener("mousedown", initRound);
+        }
+        document.querySelector("#seeresults").addEventListener("mousedown", seeResults);
+    } else {
+        if (rounds.length > maxRounds) {
+            seeResults();
+        } else {
+            setTimeout(() => {
+                initRound();
+            }, 0);
+        }
+    }
 }
 
-document.querySelector("#start").addEventListener("click",initRound);
-
+async function begin(form) {
+    auto = form.elements.auto.checked;
+    maxRounds = form.elements.maxrounds.value;
+    if (maxRounds == "") {
+        maxRounds = 100;
+    } else {
+        maxRounds = parseInt(maxRounds, 10)
+    }
+    initRound();
+}
