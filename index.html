@@ -13,9 +13,27 @@
     <div id="startview">
         <form action="javascript:;" onsubmit=" begin( this )">
             <label for="auto">Automatic:</label>
-            <input name="auto" id="auto" type="checkbox"><br>
+            <input checked onchange="checkautopts(this)" name="auto" id="auto" type="checkbox"><br>
             <label for="maxrounds">Max Rounds:</label>
             <input name="maxrounds" id="maxrounds" type="number" placeholder="100"><br>
+            <div id="autoOpts">
+                <label>Player Strategy:</label><br>
+                <input checked type="radio" id="alwaysstay" name="playerstrat" value="alwaysstay">
+                <label for="alwaysstay">Always Stay</label><br>
+                <input type="radio" id="alwaysswitch" name="playerstrat" value="alwaysswitch">
+                <label for="alwaysswitch">Always Switch</label><br>
+                <input type="radio" id="random" name="playerstrat" value="random">
+                <label for="random">Random (50/50)</label><br>
+                <label>Player Door:</label><br>
+                <input checked type="radio" id="d1" name="playerdoor" value="d1">
+                <label for="d1">Door 1</label><br>
+                <input type="radio" id="d2" name="playerdoor" value="d2">
+                <label for="d2">Door 2</label><br>
+                <input type="radio" id="d3" name="playerdoor" value="d3">
+                <label for="d3">Door 3</label><br>
+                <input type="radio" id="drandom" name="playerdoor" value="drandom">
+                <label for="drandom">Random (33/33/33)</label>
+            </div>
             <input type="submit" value="Begin">
         </form>
     </div>
@@ -57,6 +75,7 @@
                 <tr>
                     <th>Got?</th>
                     <th>Switched?</th>
+                    <th>Door?</th>
                 </tr>
             </tbody>
         </table>
