@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
 
 <body>
@@ -32,7 +33,9 @@
                 <input type="radio" id="d3" name="playerdoor" value="d3">
                 <label for="d3">Door 3</label><br>
                 <input type="radio" id="drandom" name="playerdoor" value="drandom">
-                <label for="drandom">Random (33/33/33)</label>
+                <label for="drandom">Random (33/33/33)</label><br>
+                <label for="seconds">Wait for _ seconds after each step:</label>
+                <input name="seconds" id="seconds" type="number" placeholder="0.5"><br>
             </div>
             <input type="submit" value="Begin">
         </form>
@@ -73,9 +76,10 @@
         <table id="results">
             <tbody>
                 <tr>
-                    <th>Got?</th>
-                    <th>Switched?</th>
-                    <th>Door?</th>
+                    <th>Round:</th>
+                    <th>Got:</th>
+                    <th>Switched:</th>
+                    <th>Door:</th>
                 </tr>
             </tbody>
         </table>

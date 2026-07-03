@@ -6,10 +6,12 @@ let auto = false;
 let maxRounds = 100;
 let doSwitch = 0;
 let autoDoor = 0;
+let ms = 1000;
 let rounds = [];
 function adv1() { roundStageTwo(1) }
 function adv2() { roundStageTwo(2) }
 function adv3() { roundStageTwo(3) }
+const delay = seconds => new Promise(res => setTimeout(res, seconds));
 
 async function checkautopts(autoCheckBox) {
     if (autoCheckBox.checked) {
@@ -22,6 +24,7 @@ async function checkautopts(autoCheckBox) {
 async function begin(form) {
     auto = form.elements.auto.checked;
     maxRounds = form.elements.maxrounds.value;
+    ms = form.elements.seconds.value;
     if (form.elements.alwaysstay.checked) doSwitch = 0;
     if (form.elements.alwaysswitch.checked) doSwitch = 1;
     if (form.elements.random.checked) doSwitch = 2;
@@ -33,6 +36,11 @@ async function begin(form) {
         maxRounds = 100;
     } else {
         maxRounds = parseInt(maxRounds, 10)
+    }
+    if (ms == "") {
+        ms = 500;
+    } else {
+        ms = parseInt(ms, 10) * 1000;
     }
     initRound();
 }
@@ -56,6 +64,9 @@ async function initRound() {
         document.querySelector("#door2").addEventListener("mousedown", adv2);
         document.querySelector("#door3").addEventListener("mousedown", adv3);
     } else {
+        if (ms > 0) {
+            await delay(ms);
+        }
         if (autoDoor > 0) {
             roundStageTwo(autoDoor);
         } else {
@@ -98,7 +109,6 @@ async function roundStageTwo(door) {
             `> The host opens door ${goatDoor}, to reveal a goat. He asks if you wish to switch from your current door (door ${playerDoor}) to door ${switchDoor}.`
         )
     );
-    console.log(`#door${goatDoor} > .door-front`)
     // Goat image under public domain from https://commons.wikimedia.org/wiki/File:Goat_cartoon_04.svg. Attribution given but not required.
     document.querySelector(`#door${goatDoor} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Goat_cartoon_04.svg")
     document.querySelector(`#door${goatDoor} > .door-front`).style.transform = "rotateY(-160deg)";
@@ -114,9 +124,12 @@ async function roundStageTwo(door) {
     }
     p.appendChild(div);
     if (!auto) {
-        document.querySelector("#yes").addEventListener("mousedown", () => { roundStageThree(true) });
-        document.querySelector("#no").addEventListener("mousedown", () => { roundStageThree(false) });
+        document.querySelector("#yes").addEventListener("mousedown", () => { roundStageThree(true, door) });
+        document.querySelector("#no").addEventListener("mousedown", () => { roundStageThree(false, door) });
     } else {
+        if (ms > 0) {
+            await delay(ms);
+        }
         if (doSwitch == 0) {
             roundStageThree(false, door);
         } else if (doSwitch == 1) {
@@ -167,7 +180,10 @@ async function roundStageThree(switched, pDoor) {
         }
         document.querySelector("#seeresults").addEventListener("mousedown", seeResults);
     } else {
-        if (rounds.length > maxRounds) {
+        if (ms > 0) {
+            await delay(ms);
+        }
+        if (rounds.length >= maxRounds) {
             seeResults();
         } else {
             setTimeout(() => {
@@ -185,6 +201,11 @@ async function seeResults() {
     for (let i = 0; i < rounds.length; i++) {
         let round = rounds[i];
         const row = document.createElement("tr");
+        {
+            let data = document.createElement("td");
+            data.innerText = i+1;
+            row.appendChild(data);
+        }
         if (round.gotcar) {
             let data = document.createElement("td");
             data.innerText = "Car";
@@ -216,3 +237,4 @@ async function seeResults() {
     document.querySelector("#resultview").appendChild(pc);
 }
 
+checkautopts(document.querySelector("#auto"));

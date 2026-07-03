@@ -68,6 +68,12 @@ button {
 #resultview {
     display: none;
 }
+
 #doorview {
     display: none;
+}
+
+body {
+    font-family: sans-serif;
+
 }
