@@ -7,11 +7,23 @@ let maxRounds = 100;
 let doSwitch = 0;
 let autoDoor = 0;
 let ms = 1000;
+let cancel = false;
 let rounds = [];
 function adv1() { roundStageTwo(1) }
 function adv2() { roundStageTwo(2) }
 function adv3() { roundStageTwo(3) }
 const delay = seconds => new Promise(res => setTimeout(res, seconds));
+
+async function resetSetup() {
+    cancel = false;
+    document.querySelector("#startview").style.display = "block";
+    document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator Round <span id="roundnumber"></span>`
+    document.querySelector("#doorview").style.display = "none";
+    document.querySelector("#roundnumber").innerHTML = `${rounds.length + 1}`
+    document.querySelector(`#door1 > .door-front`).style.transform = "";
+    document.querySelector(`#door2 > .door-front`).style.transform = "";
+    document.querySelector(`#door3 > .door-front`).style.transform = "";
+}
 
 async function checkautopts(autoCheckBox) {
     if (autoCheckBox.checked) {
@@ -22,6 +34,7 @@ async function checkautopts(autoCheckBox) {
 }
 
 async function begin(form) {
+    rounds = [];
     auto = form.elements.auto.checked;
     maxRounds = form.elements.maxrounds.value;
     ms = form.elements.seconds.value;
@@ -42,11 +55,15 @@ async function begin(form) {
     } else {
         ms = parseInt(ms, 10) * 1000;
     }
+    document.querySelector("#startview").style.display = "none";
     initRound();
 }
 
 async function initRound() {
-    document.querySelector("#startview").style.display = "none";
+    if (cancel) {
+        resetSetup();
+        return 0;
+    }
     document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator Round <span id="roundnumber"></span>`
     document.querySelector("#doorview").style.display = "block";
     document.querySelector("#roundnumber").innerHTML = `${rounds.length + 1}`
@@ -78,6 +95,10 @@ async function initRound() {
 }
 
 async function roundStageTwo(door) {
+    if (cancel) {
+        resetSetup();
+        return 0;
+    }
     if (!auto) {
         document.querySelector("#door1").removeEventListener("mousedown", adv1);
         document.querySelector("#door2").removeEventListener("mousedown", adv2);
@@ -141,6 +162,10 @@ async function roundStageTwo(door) {
 }
 
 async function roundStageThree(switched, pDoor) {
+    if (cancel) {
+        resetSetup();
+        return 0;
+    }
     if (!auto) {
         document.querySelector("#yes").remove();
         document.querySelector("#no").remove();
@@ -203,7 +228,7 @@ async function seeResults() {
         const row = document.createElement("tr");
         {
             let data = document.createElement("td");
-            data.innerText = i+1;
+            data.innerText = i + 1;
             row.appendChild(data);
         }
         if (round.gotcar) {
@@ -236,5 +261,23 @@ async function seeResults() {
     pc.innerText = `You got the goat ${Math.round((goats / rounds.length) * 100)}% of the time.`;
     document.querySelector("#resultview").appendChild(pc);
 }
+
+document.querySelector("#cancelButton").addEventListener("click", () => {
+    cancel = true;
+});
+document.querySelector("#settingsButton").addEventListener("click", () => {
+    if(!auto){
+        document.querySelector("#settingsSeconds").style.display = "none";
+        document.querySelector("#settingsSecondsLabel").style.display = "none";
+        document.querySelector("#settingsNotAvaliable").style.display = "inline";
+    }
+    document.querySelector("#settingsSeconds").placeholder = (ms / 1000);
+});
+document.querySelector("#settingsClose").addEventListener("click", () => {
+    let seconds = document.querySelector("#settingsSeconds");
+    if (seconds.value != "") {
+        ms = (seconds.value * 1000);
+    }
+});
 
 checkautopts(document.querySelector("#auto"));

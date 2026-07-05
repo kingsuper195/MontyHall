@@ -35,12 +35,16 @@
                 <input type="radio" id="drandom" name="playerdoor" value="drandom">
                 <label for="drandom">Random (33/33/33)</label><br>
                 <label for="seconds">Wait for _ seconds after each step:</label>
-                <input name="seconds" id="seconds" type="number" placeholder="0.5"><br>
+                <input name="seconds" id="seconds" type="number" placeholder="0.5" step=".01"><br>
             </div>
             <input type="submit" value="Begin">
         </form>
     </div>
     <div id="doorview">
+        <div id="menu">
+            <button id="cancelButton">X</button>
+            <button command="show-modal" commandfor="settings" id="settingsButton">⚙</button>
+        </div>
         <div id="prompt"></div>
         <div id="doors">
             <div id="door1" class="door">
@@ -71,6 +75,12 @@
                 </div>
             </div>
         </div>
+        <dialog id="settings">
+            <label id="settingsSecondsLabel" for="settingsSeconds">Wait for _ seconds after each step:</label>
+            <input name="settingsSeconds" id="settingsSeconds" type="number" placeholder="0.5" step=".01"><br>
+            <span id="settingsNotAvaliable">Settings is not avaliable in manual mode. Sorry.</span><br>
+            <button id="settingsClose" commandfor="settings" command="close">Close</button>
+        </dialog>
     </div>
     <div id="resultview">
         <table id="results">
