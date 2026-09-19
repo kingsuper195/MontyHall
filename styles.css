@@ -1,3 +1,39 @@
+@font-face {
+    font-family: TurretRoad;
+    src: url(fonts/TurretRoad-Regular.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: TurretRoad;
+    src: url(fonts/TurretRoad-Bold.ttf);
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: TurretRoad;
+    src: url(fonts/TurretRoad-Light.ttf);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: TurretRoad;
+    src: url(fonts/TurretRoad-ExtraBold.ttf);
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: TurretRoad;
+    src: url(fonts/TurretRoad-ExtraLight.ttf);
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: TurretRoad;
+    src: url(fonts/TurretRoad-Medium.ttf);
+    font-weight: 500;
+}
+
 /* Some code from https://www.lenastanley.com/2021/04/css-door-openclose-on-hover.html used for door animations. */
 
 .door {
@@ -85,11 +121,18 @@ button {
 }
 
 body {
-    font-family: sans-serif;
+    font-family: TurretRoad;
+    font-weight: 500;
     overflow-x: hidden;
     background-color: hsl(0, 59%, 60%);
 }
 
 #settingsNotAvaliable {
     display: none;
+}
+
+.playerDoor {
+    -webkit-box-shadow: 0px 0px 105px 15px rgba(255, 255, 0, 1);
+    -moz-box-shadow: 0px 0px 105px 15px rgba(255, 255, 0, 1);
+    box-shadow: 0px 0px 105px 15px rgba(255, 255, 0, 1);
 }
