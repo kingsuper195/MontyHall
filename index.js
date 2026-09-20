@@ -18,6 +18,7 @@ async function resetSetup() {
     document.querySelector("#startview").style.display = "block";
     document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator`;
     document.querySelector("#doorview").style.display = "none";
+    document.querySelector("#progress").style.display = "none";
     document.querySelector(`#door1 > .door-front`).style.transform = "";
     document.querySelector(`#door2 > .door-front`).style.transform = "";
     document.querySelector(`#door3 > .door-front`).style.transform = "";
@@ -54,7 +55,7 @@ async function begin(form) {
     if (ms == "") {
         ms = 500;
     } else {
-        ms = parseInt(ms, 10) * 1000;
+        ms = parseFloat(ms, 10) * 1000;
     }
     document.querySelector("#startview").style.display = "none";
     cancel = false;
@@ -67,7 +68,11 @@ async function initRound() {
     }
     document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator Round <span id="roundnumber"></span>`;
     document.querySelector("#roundnumber").innerHTML = `${rounds.length + 1}`;
-    if (ms > 0 && auto) {
+    let prog = document.querySelector("#progress");
+    prog.style.display = "block";
+    prog.setAttribute("max", maxRounds);
+    prog.value = rounds.length + 1;
+    if (ms > 0 || !auto) {
         document.querySelector("#doorview").style.display = "block";
         document.querySelector(`#door1 > .door-front`).style.transform = "";
         document.querySelector(`#door2 > .door-front`).style.transform = "";
@@ -77,7 +82,7 @@ async function initRound() {
         document.querySelector("#door3").classList.remove("playerDoor");
     }
     carDoor = Math.floor(Math.random() * 3) + 1;
-    if (ms > 0 && auto) {
+    if (ms > 0 || !auto) {
         let p = document.querySelector("#prompt");
         p.innerHTML = "";
         const div = document.createElement("div");
@@ -113,7 +118,7 @@ async function roundStageTwo(door) {
     }
     playerDoor = door;
     let p;
-    if (ms > 0 && auto) {
+    if (ms > 0 || !auto) {
         document.querySelector("#door" + playerDoor).classList.add("playerDoor");
         p = document.querySelector("#prompt");
     }
@@ -135,7 +140,7 @@ async function roundStageTwo(door) {
             switchDoor = i + 1;
         };
     }
-    if (ms > 0 && auto) {
+    if (ms > 0 || !auto) {
         const div = document.createElement("div");
         div.appendChild(
             document.createTextNode(
@@ -186,25 +191,25 @@ async function roundStageThree(switched, pDoor) {
     if (switched) { door = switchDoor; } else { door = playerDoor; }
     let p;
     let div;
-    if (ms > 0 && auto) {
+    if (ms > 0 || !auto) {
         p = document.querySelector("#prompt");
         div = document.createElement("div");
     }
     if (door == carDoor) {
         rounds.push({ "gotcar": true, "switched": switched, "pDoor": pDoor });
-        if (ms > 0 && auto) {
-            div.appendChild(document.createTextNode(`> The judge opens door ${door} to reveal a stupid car!`));
+        if (ms > 0 || !auto) {
+            div.appendChild(document.createTextNode(`> The host opens door ${door} to reveal a stupid car!`));
             // Car image under public domain from  https://commons.wikimedia.org/wiki/File:Sedan-car.svg. Attribution given but not required.
             document.querySelector(`#door${door} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/4/43/Sedan-car.svg");
         }
     } else {
         rounds.push({ "gotcar": false, "switched": switched, "pDoor": pDoor });
-        if (ms > 0 && auto) {
-            div.appendChild(document.createTextNode(`> The judge opens door ${door} to reveal your beautiful new pet goat!`));
+        if (ms > 0 || !auto) {
+            div.appendChild(document.createTextNode(`> The host opens door ${door} to reveal your beautiful new pet goat!`));
             document.querySelector(`#door${door} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Goat_cartoon_04.svg");
         }
     }
-    if (ms > 0 && auto) {
+    if (ms > 0 || !auto) {
         document.querySelector(`#door${door} > .door-front`).style.transform = "rotateY(-160deg)";
     }
 
@@ -221,7 +226,7 @@ async function roundStageThree(switched, pDoor) {
         div.appendChild(seeResultsBtn);
 
     }
-    if (ms > 0 && auto) {
+    if (ms > 0 || !auto) {
         p.appendChild(div);
     }
     if (!auto) {

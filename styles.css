@@ -109,6 +109,22 @@ button {
     display: none;
 }
 
+#progress {
+    display: none;
+    width: 100%;
+    background-color: grey;
+    color: brown;
+    border: none;
+}
+
+progress::-moz-progress-bar {
+    background-color: brown;
+}
+
+progress::-webkit-progress-value {
+    background-color: brown;
+}
+
 #menu {
     position: absolute;
     top: 1em;
