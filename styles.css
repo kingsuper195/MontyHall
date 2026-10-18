@@ -36,6 +36,12 @@
 
 /* Some code from https://www.lenastanley.com/2021/04/css-door-openclose-on-hover.html used for door animations. */
 
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
 .door {
     background-color: brown;
     width: 23%;
@@ -151,4 +157,98 @@ body {
     -webkit-box-shadow: 0px 0px 105px 15px rgba(255, 255, 0, 1);
     -moz-box-shadow: 0px 0px 105px 15px rgba(255, 255, 0, 1);
     box-shadow: 0px 0px 105px 15px rgba(255, 255, 0, 1);
+}
+
+/* Start View */
+#startview {
+    user-select: none;
+    font-size: xx-large;
+}
+
+#startform {
+    text-align: center;
+}
+
+#autosection {
+    display: flex;
+}
+
+#autosection input {
+    display: none;
+}
+
+#autosection label {
+    text-align: center;
+    height: 150px;
+    line-height: 150px;
+    display: block;
+    width: 50%;
+    margin: none;
+    cursor: pointer;
+    background-color: grey;
+    color: black;
+    border: 0;
+    clip-path: polygon(0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px));
+    position: relative;
+    font-size: xx-large;
+    margin-bottom: 10px;
+}
+
+#autosection label:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: black;
+    clip-path: polygon(0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px, 3px calc(20px + 1.24px), 3px calc(100% - 20px - 1.24px), calc(20px + 1.24px) calc(100% - 3px), calc(100% - 20px - 1.24px) calc(100% - 3px), calc(100% - 3px) calc(100% - 20px - 1.24px), calc(100% - 3px) calc(20px + 1.24px), calc(100% - 20px - 1.24px) 3px, calc(20px + 1.24px) 3px, 3px calc(20px + 1.24px));
+}
+
+#autosection input:checked+label {
+    background-color: brown;
+    color: black;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+#submitstart {
+    text-align: center;
+    height: 100px;
+    width: 200px;
+    background-color: grey;
+    border: 3px solid black;
+    margin-top: 10px;
+    font-size: xx-large;
+    font-family: TurretRoad;
+    cursor: pointer;
+}
+
+#submitstart:hover {
+    background-color: brown;
+}
+
+#autoOpts input[type="radio"] {
+    display: none;
+}
+
+#autoOpts input[type="radio"]:checked+label {
+    background-color: brown;
+}
+
+#autoOpts label {
+    background-color: grey;
+    border: 2px solid black;
+    margin: 1px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 1px;
+}
+
+#autoOpts input[type="number"] {
+    background-color: grey;
+    border: 2px solid black;
+    font-size: xx-large;
+    font-family: TurretRoad;
+
+}
+
+#autoOpts input[type="number"]::placeholder {
+    color: white;
 }

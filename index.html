@@ -12,20 +12,24 @@
 <body>
     <h1>Monty Hall Problem Simulator</h1>
     <div id="startview">
-        <form action="javascript:;" onsubmit=" begin( this )">
-            <label for="auto">Automatic:</label>
-            <input checked onchange="checkautopts(this)" name="auto" id="auto" type="checkbox"><br>
-            <label for="maxrounds">Max Rounds:</label>
-            <input name="maxrounds" id="maxrounds" type="number" placeholder="100"><br>
-            <div id="autoOpts">
-                <label>Player Strategy:</label><br>
+        <form id="startform" action="javascript:;" onsubmit=" begin( this )">
+            <section id="autosection">
+                <input onchange="checkautopts(this)" name="auto" id="auto" type="radio">
+                <label for="auto">Automatic</label>
+                <input onchange="checkautopts(this)" name="auto" id="manual" type="radio">
+                <label for="manual">Manual</label>
+            </section>
+            <section id="autoOpts">
+                <span for="maxrounds">Rounds:</label>
+                <input name="maxrounds" id="maxrounds" type="number" placeholder="100"><br>
+                <span>Player Strategy:</label><br>
                 <input checked type="radio" id="alwaysstay" name="playerstrat" value="alwaysstay">
                 <label for="alwaysstay">Always Stay</label><br>
                 <input type="radio" id="alwaysswitch" name="playerstrat" value="alwaysswitch">
                 <label for="alwaysswitch">Always Switch</label><br>
                 <input type="radio" id="random" name="playerstrat" value="random">
                 <label for="random">Random (50/50)</label><br>
-                <label>Player Door:</label><br>
+                <span>Player Door:</label><br>
                 <input checked type="radio" id="d1" name="playerdoor" value="d1">
                 <label for="d1">Door 1</label><br>
                 <input type="radio" id="d2" name="playerdoor" value="d2">
@@ -34,10 +38,10 @@
                 <label for="d3">Door 3</label><br>
                 <input type="radio" id="drandom" name="playerdoor" value="drandom">
                 <label for="drandom">Random (33/33/33)</label><br>
-                <label for="seconds">Wait for _ seconds after each step:</label>
-                <input name="seconds" id="seconds" type="number" placeholder="0.5" step=".01"><br>
-            </div>
-            <input type="submit" value="Begin">
+                <span for="seconds">Speed (percent):</label>
+                <input name="seconds" id="seconds" type="number" placeholder="50" step="1" min="1" max="100"><br>
+            </section>
+            <input type="submit" id="submitstart" value="Begin">
         </form>
     </div>
     <progress id="progress"></progress>

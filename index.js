@@ -3,12 +3,12 @@ let goatDoor;
 let switchDoor;
 let playerDoor;
 let auto = false;
-let maxRounds = 100;
+let rounds = 100;
 let doSwitch = 0;
 let autoDoor = 0;
 let ms = 1000;
 let cancel = false;
-let rounds = [];
+let roundsLog = [];
 function adv1() { roundStageTwo(1); }
 function adv2() { roundStageTwo(2); }
 function adv3() { roundStageTwo(3); }
@@ -28,17 +28,23 @@ async function resetSetup() {
 }
 
 async function checkautopts(autoCheckBox) {
-    if (autoCheckBox.checked) {
+    if (autoCheckBox.checked && autoCheckBox.id == "auto") {
         document.querySelector("#autoOpts").style.display = "block";
     } else {
         document.querySelector("#autoOpts").style.display = "none";
     }
+    if (autoCheckBox.checked) {
+        document.querySelector("#submitstart").style.display = "inline";
+    } else {
+        document.querySelector("#submitstart").style.display = "none";
+    }
 }
 
 async function begin(form) {
-    rounds = [];
-    auto = form.elements.auto.checked;
-    maxRounds = form.elements.maxrounds.value;
+    roundsLog = [];
+    auto = form.elements.auto[0].checked;
+    console.log(auto);
+    rounds = form.elements.maxrounds.value;
     ms = form.elements.seconds.value;
     if (form.elements.alwaysstay.checked) doSwitch = 0;
     if (form.elements.alwaysswitch.checked) doSwitch = 1;
@@ -47,15 +53,19 @@ async function begin(form) {
     if (form.elements.d2.checked) autoDoor = 2;
     if (form.elements.d3.checked) autoDoor = 3;
     if (form.elements.drandom.checked) autoDoor = 0;
-    if (maxRounds == "") {
-        maxRounds = 100;
+    if (rounds == "") {
+        if (auto) {
+            rounds = 100;
+        } else {
+            rounds = Infinity;
+        }
     } else {
-        maxRounds = parseInt(maxRounds, 10);
+        rounds = parseInt(rounds, 10);
     }
     if (ms == "") {
         ms = 500;
     } else {
-        ms = parseFloat(ms, 10) * 1000;
+        ms = (100 - parseFloat(ms, 10)) * 10;
     }
     document.querySelector("#startview").style.display = "none";
     cancel = false;
@@ -67,11 +77,11 @@ async function initRound() {
         return 0;
     }
     document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator Round <span id="roundnumber"></span>`;
-    document.querySelector("#roundnumber").innerHTML = `${rounds.length + 1}`;
+    document.querySelector("#roundnumber").innerHTML = `${roundsLog.length + 1}`;
     let prog = document.querySelector("#progress");
     prog.style.display = "block";
-    prog.setAttribute("max", maxRounds);
-    prog.value = rounds.length + 1;
+    prog.setAttribute("max", rounds);
+    prog.value = roundsLog.length + 1;
     if (ms > 0 || !auto) {
         document.querySelector("#doorview").style.display = "block";
         document.querySelector(`#door1 > .door-front`).style.transform = "";
@@ -196,14 +206,14 @@ async function roundStageThree(switched, pDoor) {
         div = document.createElement("div");
     }
     if (door == carDoor) {
-        rounds.push({ "gotcar": true, "switched": switched, "pDoor": pDoor });
+        roundsLog.push({ "gotcar": true, "switched": switched, "pDoor": pDoor });
         if (ms > 0 || !auto) {
             div.appendChild(document.createTextNode(`> The host opens door ${door} to reveal a stupid car!`));
             // Car image under public domain from  https://commons.wikimedia.org/wiki/File:Sedan-car.svg. Attribution given but not required.
             document.querySelector(`#door${door} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/4/43/Sedan-car.svg");
         }
     } else {
-        rounds.push({ "gotcar": false, "switched": switched, "pDoor": pDoor });
+        roundsLog.push({ "gotcar": false, "switched": switched, "pDoor": pDoor });
         if (ms > 0 || !auto) {
             div.appendChild(document.createTextNode(`> The host opens door ${door} to reveal your beautiful new pet goat!`));
             document.querySelector(`#door${door} > .door-back > img`).setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Goat_cartoon_04.svg");
@@ -214,7 +224,7 @@ async function roundStageThree(switched, pDoor) {
     }
 
     if (!auto) {
-        if (rounds.length < maxRounds) {
+        if (roundsLog.length < rounds) {
             let newRound = document.createElement("button");
             newRound.id = "newround";
             newRound.innerText = "New Round";
@@ -230,7 +240,7 @@ async function roundStageThree(switched, pDoor) {
         p.appendChild(div);
     }
     if (!auto) {
-        if (rounds.length < maxRounds) {
+        if (roundsLog.length < rounds) {
             document.querySelector("#newround").addEventListener("mousedown", initRound);
         }
         document.querySelector("#seeresults").addEventListener("mousedown", seeResults);
@@ -238,7 +248,7 @@ async function roundStageThree(switched, pDoor) {
         if (ms > 0) {
             await delay(ms);
         }
-        if (rounds.length >= maxRounds) {
+        if (roundsLog.length >= rounds) {
             seeResults();
         } else {
             setTimeout(() => {
@@ -253,8 +263,8 @@ async function seeResults() {
     document.querySelector("h1").innerHTML = "Monty Hall Problem Simulator Results";
     document.querySelector("#resultview").style.display = "block";
     let goats = 0;
-    for (let i = 0; i < rounds.length; i++) {
-        let round = rounds[i];
+    for (let i = 0; i < roundsLog.length; i++) {
+        let round = roundsLog[i];
         const row = document.createElement("tr");
         {
             let data = document.createElement("td");
@@ -288,7 +298,7 @@ async function seeResults() {
         document.querySelector("#results > tbody").appendChild(row);
     };
     let pc = document.createElement("span");
-    pc.innerText = `You got the goat ${Math.round((goats / rounds.length) * 100)}% of the time.`;
+    pc.innerText = `You got the goat ${Math.round((goats / roundsLog.length) * 100)}% of the time.`;
     document.querySelector("#resultview").appendChild(pc);
 }
 
