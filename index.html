@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Monty Hall Problem Simulator</title>
+    <title>Monty Hall Paradox Simulator</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css" />
@@ -10,8 +10,9 @@
 </head>
 
 <body>
-    <h1>Monty Hall Problem Simulator</h1>
+    <h1>Monty Hall Paradox Simulator</h1>
     <div id="startview">
+        <button id="info" command="show-modal" commandfor="infoDialog">About</button>
         <form id="startform" action="javascript:;" onsubmit=" begin( this )">
             <section id="autosection">
                 <input onchange="checkautopts(this)" name="auto" id="auto" type="radio">
@@ -44,13 +45,48 @@
             </section>
             <input type="submit" id="submitstart" value="Begin">
         </form>
+        <dialog id="infoDialog">
+            <div class="innerBox">
+                <h3>The Monty Hall Paradox</h3>
+                <p>
+                    The Monty Hall Paradox is thus: At a game show, the host presents a player three doors. Behind two
+                    randomly assigned doors are goats, and behind the other one is a shiny new car. The player chooses
+                    one, and the host opens one of the other two doors. Behind this door is a goat. The host offers that
+                    the player can choose to switch doors from their original door to the other, unrevealed door.
+                </p>
+                <p>
+                    Is it in the player's advantage to switch?
+                </p>
+                <p>
+                    The obvious thought would be no, as the probality of getting the car would remain 1/3, right? It
+                    turns out the answer is yes. The player's intial choice is, of course 1/3, however if they are to
+                    change, after the host reveals the other door, their chance becomes 2/3. Why? No one really knows,
+                    though there have been explainations offered.
+                </p>
+                <h3>This Tool</h3>
+                <p>
+                    In automatic mode, this tool simulates the paradox, over and over again, until
+                    the law of large numbers presents itself, and you can see it proved.
+                </p>
+                <p>
+                    In manual mode, it allows you to play through the scenario, as many times as you want, and see it in
+                    action yourself.
+                </p>
+
+                <p>
+                    Of course, one could always argue that it is never in the player's favour to switch, using <a
+                        href="https://xkcd.com/1282/">this</a> reasoning.
+                </p>
+                <button id="infoClose" commandfor="infoDialog" command="close" class="close">Close</button>
+            </div>
+        </dialog>
     </div>
     <progress id="progress"></progress>
+    <div id="dvmenu" class="menu">
+        <button class="menuBtn" id="cancelButton">X</button>
+        <button class="menuBtn" command="show-modal" commandfor="settings" id="settingsButton">⚙</button>
+    </div>
     <div id="doorview">
-        <div class="menu">
-            <button id="cancelButton">X</button>
-            <button command="show-modal" commandfor="settings" id="settingsButton">⚙</button>
-        </div>
         <div id="prompt"></div>
         <div id="doors">
             <div id="door1" class="door">
@@ -81,16 +117,19 @@
                 </div>
             </div>
         </div>
-        <dialog id="settings">
-            <label id="settingsSecondsLabel" for="settingsSeconds">Wait for _ seconds after each step:</label>
-            <input name="settingsSeconds" id="settingsSeconds" type="number" placeholder="0.5" step=".01"><br>
-            <span id="settingsNotAvaliable">Settings is not avaliable in manual mode. Sorry.</span><br>
-            <button id="settingsClose" commandfor="settings" command="close">Close</button>
-        </dialog>
     </div>
+    <dialog id="settings">
+        <div class="innerBox">
+            <label id="settingsSecondsLabel" for="settingsSeconds">Speed (percent):</label>
+            <input name="settingsSeconds" id="settingsSeconds" type="number" placeholder="100" step="1" min="1"
+                max="100"><br>
+            <span id="settingsNotAvaliable">Settings is not avaliable in manual mode. Sorry.</span><br>
+            <button id="settingsClose" commandfor="settings" command="close" class="close">Close</button>
+        </div>
+    </dialog>
     <div id="resultview">
         <div class="menu">
-            <button id="restart">↻</button>
+            <button class="menuBtn" id="restart">↻</button>
         </div>
         <details>
             <summary>Raw Data</summary>
@@ -107,17 +146,17 @@
         </details>
         <b>Switch (<span id="totalW"></span>):</b><br>
         <ul>
-            <li> Car Percentage: <span id="carPercentW"></span></li>
-            <li> Goat Percentage: <span id="goatPercentW"></span></li>
-            <li> Cars: <span id="carTimesW"></span></li>
-            <li> Goats: <span id="goatTimesW"></span></li>
+            <li>Car Percentage: <span id="carPercentW"></span></li>
+            <li>Goat Percentage: <span id="goatPercentW"></span></li>
+            <li>Cars: <span id="carTimesW"></span></li>
+            <li>Goats: <span id="goatTimesW"></span></li>
         </ul>
         <b>Stay (<span id="totalT"></span>):</b><br>
         <ul>
-            <li> Car Percentage: <span id="carPercentT"></span></li>
-            <li> Goat Percentage: <span id="goatPercentT"></span></li>
-            <li> Cars: <span id="carTimesT"></span></li>
-            <li> Goats: <span id="goatTimesT"></span></li>
+            <li>Car Percentage: <span id="carPercentT"></span></li>
+            <li>Goat Percentage: <span id="goatPercentT"></span></li>
+            <li>Cars: <span id="carTimesT"></span></li>
+            <li>Goats: <span id="goatTimesT"></span></li>
         </ul>
 
     </div>

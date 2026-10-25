@@ -18,6 +18,7 @@ async function resetSetup() {
     document.querySelector("#startview").style.display = "block";
     document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator`;
     document.querySelector("#doorview").style.display = "none";
+    document.querySelector("#dvmenu").style.display = "none";
     document.querySelector("#progress").style.display = "none";
     document.querySelector("#resultview").style.display = "none";
     document.querySelector(`#door1 > .door-front`).style.transform = "";
@@ -45,7 +46,6 @@ async function checkautopts(autoCheckBox) {
 async function begin(form) {
     roundsLog = [];
     auto = form.elements.auto[0].checked;
-    console.log(auto);
     rounds = form.elements.maxrounds.value;
     ms = form.elements.seconds.value;
     if (form.elements.alwaysstay.checked) doSwitch = 0;
@@ -62,12 +62,12 @@ async function begin(form) {
             rounds = Infinity;
         }
     } else {
-        rounds = parseInt(rounds, 10);
+        rounds = parseInt(rounds);
     }
     if (ms == "") {
         ms = 0;
     } else {
-        ms = (100 - parseFloat(ms, 10)) * 10;
+        ms = (100 - parseInt(ms)) * 10;
     }
     document.querySelector("#startview").style.display = "none";
     cancel = false;
@@ -84,6 +84,7 @@ async function initRound() {
     prog.style.display = "block";
     prog.setAttribute("max", rounds);
     prog.value = roundsLog.length + 1;
+    document.querySelector("#dvmenu").style.display = "block";
     if (ms > 0 || !auto) {
         document.querySelector("#doorview").style.display = "block";
         document.querySelector(`#door1 > .door-front`).style.transform = "";
@@ -262,6 +263,7 @@ async function roundStageThree(switched, pDoor) {
 
 async function seeResults() {
     document.querySelector("#doorview").style.display = "none";
+    document.querySelector("#dvmenu").style.display = "none"
     document.querySelector("#progress").style.display = "none";
     document.querySelector("h1").innerHTML = "Monty Hall Problem Simulator Results";
     document.querySelector("#resultview").style.display = "block";
@@ -336,13 +338,23 @@ document.querySelector("#settingsButton").addEventListener("click", () => {
         document.querySelector("#settingsSecondsLabel").style.display = "none";
         document.querySelector("#settingsNotAvaliable").style.display = "inline";
     }
-    document.querySelector("#settingsSeconds").placeholder = (ms / 1000);
+    document.querySelector("#settingsSeconds").placeholder = (100 - parseInt(ms/10));
 });
 document.querySelector("#settingsClose").addEventListener("click", () => {
     let seconds = document.querySelector("#settingsSeconds");
     if (seconds.value != "") {
-        ms = (seconds.value * 1000);
+        ms = (100 - parseInt(seconds.value)) * 10;
     }
 });
 
+document.querySelectorAll("dialog").forEach((dialog) => {
+    dialog.addEventListener("click", () => {
+        dialog.close();
+    });
+});
+document.querySelectorAll(".innerBox").forEach((dialog) => {
+    dialog.addEventListener("click", (event) => {
+        event.stopPropagation();
+    });
+});
 checkautopts(document.querySelector("#auto"));
