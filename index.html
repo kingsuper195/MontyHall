@@ -21,32 +21,33 @@
             </section>
             <section id="autoOpts">
                 <span for="maxrounds">Rounds:</label>
-                <input name="maxrounds" id="maxrounds" type="number" placeholder="100"><br>
-                <span>Player Strategy:</label><br>
-                <input checked type="radio" id="alwaysstay" name="playerstrat" value="alwaysstay">
-                <label for="alwaysstay">Always Stay</label><br>
-                <input type="radio" id="alwaysswitch" name="playerstrat" value="alwaysswitch">
-                <label for="alwaysswitch">Always Switch</label><br>
-                <input type="radio" id="random" name="playerstrat" value="random">
-                <label for="random">Random (50/50)</label><br>
-                <span>Player Door:</label><br>
-                <input checked type="radio" id="d1" name="playerdoor" value="d1">
-                <label for="d1">Door 1</label><br>
-                <input type="radio" id="d2" name="playerdoor" value="d2">
-                <label for="d2">Door 2</label><br>
-                <input type="radio" id="d3" name="playerdoor" value="d3">
-                <label for="d3">Door 3</label><br>
-                <input type="radio" id="drandom" name="playerdoor" value="drandom">
-                <label for="drandom">Random (33/33/33)</label><br>
-                <span for="seconds">Speed (percent):</label>
-                <input name="seconds" id="seconds" type="number" placeholder="50" step="1" min="1" max="100"><br>
+                    <input name="maxrounds" id="maxrounds" type="number" placeholder="100"><br>
+                    <span>Player Strategy:</label><br>
+                        <input checked type="radio" id="alwaysstay" name="playerstrat" value="alwaysstay">
+                        <label for="alwaysstay">Always Stay</label><br>
+                        <input type="radio" id="alwaysswitch" name="playerstrat" value="alwaysswitch">
+                        <label for="alwaysswitch">Always Switch</label><br>
+                        <input type="radio" id="random" name="playerstrat" value="random">
+                        <label for="random">Random (50/50)</label><br>
+                        <span>Player Door:</label><br>
+                            <input checked type="radio" id="d1" name="playerdoor" value="d1">
+                            <label for="d1">Door 1</label><br>
+                            <input type="radio" id="d2" name="playerdoor" value="d2">
+                            <label for="d2">Door 2</label><br>
+                            <input type="radio" id="d3" name="playerdoor" value="d3">
+                            <label for="d3">Door 3</label><br>
+                            <input type="radio" id="drandom" name="playerdoor" value="drandom">
+                            <label for="drandom">Random (33/33/33)</label><br>
+                            <span for="seconds">Speed (percent):</label>
+                                <input name="seconds" id="seconds" type="number" placeholder="100" step="1" min="1"
+                                    max="100"><br>
             </section>
             <input type="submit" id="submitstart" value="Begin">
         </form>
     </div>
     <progress id="progress"></progress>
     <div id="doorview">
-        <div id="menu">
+        <div class="menu">
             <button id="cancelButton">X</button>
             <button command="show-modal" commandfor="settings" id="settingsButton">⚙</button>
         </div>
@@ -88,16 +89,37 @@
         </dialog>
     </div>
     <div id="resultview">
-        <table id="results">
-            <tbody>
-                <tr>
-                    <th>Round:</th>
-                    <th>Got:</th>
-                    <th>Switched:</th>
-                    <th>Door:</th>
-                </tr>
-            </tbody>
-        </table>
+        <div class="menu">
+            <button id="restart">↻</button>
+        </div>
+        <details>
+            <summary>Raw Data</summary>
+            <table id="results">
+                <tbody>
+                    <tr>
+                        <th>Round:</th>
+                        <th>Got:</th>
+                        <th>Switched:</th>
+                        <th>Door:</th>
+                    </tr>
+                </tbody>
+            </table>
+        </details>
+        <b>Switch (<span id="totalW"></span>):</b><br>
+        <ul>
+            <li> Car Percentage: <span id="carPercentW"></span></li>
+            <li> Goat Percentage: <span id="goatPercentW"></span></li>
+            <li> Cars: <span id="carTimesW"></span></li>
+            <li> Goats: <span id="goatTimesW"></span></li>
+        </ul>
+        <b>Stay (<span id="totalT"></span>):</b><br>
+        <ul>
+            <li> Car Percentage: <span id="carPercentT"></span></li>
+            <li> Goat Percentage: <span id="goatPercentT"></span></li>
+            <li> Cars: <span id="carTimesT"></span></li>
+            <li> Goats: <span id="goatTimesT"></span></li>
+        </ul>
+
     </div>
     <script src="index.js"></script>
 </body>

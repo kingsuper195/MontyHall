@@ -19,12 +19,14 @@ async function resetSetup() {
     document.querySelector("h1").innerHTML = `Monty Hall Problem Simulator`;
     document.querySelector("#doorview").style.display = "none";
     document.querySelector("#progress").style.display = "none";
+    document.querySelector("#resultview").style.display = "none";
     document.querySelector(`#door1 > .door-front`).style.transform = "";
     document.querySelector(`#door2 > .door-front`).style.transform = "";
     document.querySelector(`#door3 > .door-front`).style.transform = "";
     document.querySelector("#door1").classList.remove("playerDoor");
     document.querySelector("#door2").classList.remove("playerDoor");
     document.querySelector("#door3").classList.remove("playerDoor");
+    document.querySelector("#progress").style.display = "none";
 }
 
 async function checkautopts(autoCheckBox) {
@@ -63,7 +65,7 @@ async function begin(form) {
         rounds = parseInt(rounds, 10);
     }
     if (ms == "") {
-        ms = 500;
+        ms = 0;
     } else {
         ms = (100 - parseFloat(ms, 10)) * 10;
     }
@@ -260,9 +262,13 @@ async function roundStageThree(switched, pDoor) {
 
 async function seeResults() {
     document.querySelector("#doorview").style.display = "none";
+    document.querySelector("#progress").style.display = "none";
     document.querySelector("h1").innerHTML = "Monty Hall Problem Simulator Results";
     document.querySelector("#resultview").style.display = "block";
-    let goats = 0;
+    let goatsW = 0;
+    let totalW = 0;
+    let goatsT = 0;
+    let totalT = 0;
     for (let i = 0; i < roundsLog.length; i++) {
         let round = roundsLog[i];
         const row = document.createElement("tr");
@@ -279,16 +285,22 @@ async function seeResults() {
             let data = document.createElement("td");
             data.innerText = "Goat";
             row.appendChild(data);
-            goats++;
+            if (round.switched) {
+                goatsW++;
+            } else {
+                goatsT++;
+            }
         }
         if (round.switched) {
             let data = document.createElement("td");
             data.innerText = "Yes";
             row.appendChild(data);
+            totalW++;
         } else {
             let data = document.createElement("td");
             data.innerText = "No";
             row.appendChild(data);
+            totalT++;
         }
         {
             let data = document.createElement("td");
@@ -297,13 +309,24 @@ async function seeResults() {
         }
         document.querySelector("#results > tbody").appendChild(row);
     };
-    let pc = document.createElement("span");
-    pc.innerText = `You got the goat ${Math.round((goats / roundsLog.length) * 100)}% of the time.`;
-    document.querySelector("#resultview").appendChild(pc);
+    document.querySelector("#totalW").innerText = totalW;
+    document.querySelector("#totalT").innerText = totalT;
+    document.querySelector("#goatPercentW").innerText = goatsW > 0 ? Math.round((goatsW / roundsLog.length) * 100) + "%" : "N/A";
+    document.querySelector("#carPercentW").innerText = goatsW > 0 ? 100 - Math.round((goatsW / roundsLog.length) * 100) + "%" : "N/A";
+    document.querySelector("#goatTimesW").innerText = goatsW > 0 ? goatsW : "N/A";
+    document.querySelector("#carTimesW").innerText = goatsW > 0 ? roundsLog.length - goatsW : "N/A";
+    document.querySelector("#goatPercentT").innerText = goatsT > 0 ? Math.round((goatsT / roundsLog.length) * 100) + "%" : "N/A";
+    document.querySelector("#carPercentT").innerText = goatsT > 0 ? 100 - Math.round((goatsT / roundsLog.length) * 100) + "%" : "N/A";
+    document.querySelector("#goatTimesT").innerText = goatsT > 0 ? goatsT : "N/A";
+    document.querySelector("#carTimesT").innerText = goatsT > 0 ? roundsLog.length - goatsT : "N/A";
 }
 
 document.querySelector("#cancelButton").addEventListener("click", () => {
     cancel = true;
+    resetSetup();
+});
+
+document.querySelector("#restart").addEventListener("click", () => {
     resetSetup();
 });
 

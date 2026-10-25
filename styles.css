@@ -131,7 +131,7 @@ progress::-webkit-progress-value {
     background-color: brown;
 }
 
-#menu {
+.menu {
     position: absolute;
     top: 1em;
     left: calc(100% - 2em);
@@ -147,6 +147,8 @@ body {
     font-weight: 500;
     overflow-x: hidden;
     background-color: hsl(0, 59%, 60%);
+    user-select: none;
+    padding: 10px;
 }
 
 #settingsNotAvaliable {
@@ -251,4 +253,46 @@ body {
 
 #autoOpts input[type="number"]::placeholder {
     color: white;
+}
+
+/* End Page */
+
+summary {
+    background-color: grey;
+    border: 2px solid black;
+    margin: 1px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 1px;
+    text-wrap: nowrap;
+}
+
+summary:hover {
+    background-color: Brown;
+}
+
+details {
+    background-color: Brown;
+    width: min-content;
+    height: min-content;
+}
+
+details[open] {
+    width: 100%;
+    padding: 5px;
+}
+
+td,
+th {
+    border: 1px solid black;
+    margin: 0px;
+    padding: 2px;
+}
+
+table {
+    /* border: 1px solid black; */
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 0;
+    margin: 0;
 }
