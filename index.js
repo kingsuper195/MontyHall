@@ -263,7 +263,7 @@ async function roundStageThree(switched, pDoor) {
 
 async function seeResults() {
     document.querySelector("#doorview").style.display = "none";
-    document.querySelector("#dvmenu").style.display = "none"
+    document.querySelector("#dvmenu").style.display = "none";
     document.querySelector("#progress").style.display = "none";
     document.querySelector("h1").innerHTML = "Monty Hall Problem Simulator Results";
     document.querySelector("#resultview").style.display = "block";
@@ -338,7 +338,7 @@ document.querySelector("#settingsButton").addEventListener("click", () => {
         document.querySelector("#settingsSecondsLabel").style.display = "none";
         document.querySelector("#settingsNotAvaliable").style.display = "inline";
     }
-    document.querySelector("#settingsSeconds").placeholder = (100 - parseInt(ms/10));
+    document.querySelector("#settingsSeconds").placeholder = (100 - parseInt(ms / 10));
 });
 document.querySelector("#settingsClose").addEventListener("click", () => {
     let seconds = document.querySelector("#settingsSeconds");
@@ -357,4 +357,6 @@ document.querySelectorAll(".innerBox").forEach((dialog) => {
         event.stopPropagation();
     });
 });
+
 checkautopts(document.querySelector("#auto"));
+document.querySelector("#infoDialog").showModal();

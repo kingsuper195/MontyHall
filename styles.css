@@ -42,6 +42,18 @@ body {
     margin: 0;
 }
 
+.close {
+    position: absolute;
+    top: 1em;
+    left: calc(100% - (16px + 2em));
+    width: 2em;
+    height: 2em;
+}
+
+.infoh3 {
+    margin-top:0;
+}
+
 .door {
     background-color: brown;
     width: 23%;
@@ -177,6 +189,7 @@ button {
     background-color: grey;
     font-family: inherit;
     border: 2px solid black;
+    cursor: pointer;
 }
 
 button:hover {
@@ -189,6 +202,10 @@ dialog {
     max-width: 100%;
     max-height: 100%;
     overflow: hidden;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Start View */
@@ -294,6 +311,19 @@ dialog {
 
 #autoOpts input[type="number"]::placeholder {
     color: white;
+}
+
+#info {
+    position: absolute;
+    top: 1em;
+    left: calc(100% - 3em);
+    width: 2em;
+    height: 2em;
+}
+
+#title {
+    padding-top: 0;
+    margin-top: 0;
 }
 
 /* End Page */

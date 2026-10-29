@@ -10,9 +10,9 @@
 </head>
 
 <body>
-    <h1>Monty Hall Paradox Simulator</h1>
+    <h1 id="title">Monty Hall Paradox Simulator</h1>
     <div id="startview">
-        <button id="info" command="show-modal" commandfor="infoDialog">About</button>
+        <button id="info" command="show-modal" commandfor="infoDialog">?</button>
         <form id="startform" action="javascript:;" onsubmit=" begin( this )">
             <section id="autosection">
                 <input onchange="checkautopts(this)" name="auto" id="auto" type="radio">
@@ -47,7 +47,7 @@
         </form>
         <dialog id="infoDialog">
             <div class="innerBox">
-                <h3>The Monty Hall Paradox</h3>
+                <h3 class="infoh3">The Monty Hall Paradox</h3>
                 <p>
                     The Monty Hall Paradox is thus: At a game show, the host presents a player three doors. Behind two
                     randomly assigned doors are goats, and behind the other one is a shiny new car. The player chooses
@@ -58,15 +58,15 @@
                     Is it in the player's advantage to switch?
                 </p>
                 <p>
-                    The obvious thought would be no, as the probality of getting the car would remain 1/3, right? It
-                    turns out the answer is yes. The player's intial choice is, of course 1/3, however if they are to
-                    change, after the host reveals the other door, their chance becomes 2/3. Why? No one really knows,
-                    though there have been explainations offered.
+                    The obvious thought would be no, as the probability of getting the car would remain 1/3. Turns out
+                    the answer is yes. The player's initial choice is, of course, 1/3; however, if they are to change,
+                    after the host reveals the other door, their chance becomes 2/3. Why? No one really knows, though
+                    there have been explanations offered.
                 </p>
-                <h3>This Tool</h3>
+                <h3 class="infoh3">This Tool</h3>
                 <p>
-                    In automatic mode, this tool simulates the paradox, over and over again, until
-                    the law of large numbers presents itself, and you can see it proved.
+                    In automatic mode, this tool simulates the paradox, over and over again, until The law of large
+                    numbers presents itself, and you can see it proved.
                 </p>
                 <p>
                     In manual mode, it allows you to play through the scenario, as many times as you want, and see it in
@@ -75,9 +75,9 @@
 
                 <p>
                     Of course, one could always argue that it is never in the player's favour to switch, using <a
-                        href="https://xkcd.com/1282/">this</a> reasoning.
+                        href="https://xkcd.com/1282/">this</a> reasoning..
                 </p>
-                <button id="infoClose" commandfor="infoDialog" command="close" class="close">Close</button>
+                <button id="infoClose" commandfor="infoDialog" command="close" class="close">X</button>
             </div>
         </dialog>
     </div>
@@ -120,11 +120,12 @@
     </div>
     <dialog id="settings">
         <div class="innerBox">
+            <h3 class="infoh3">Settings</h3>
             <label id="settingsSecondsLabel" for="settingsSeconds">Speed (percent):</label>
             <input name="settingsSeconds" id="settingsSeconds" type="number" placeholder="100" step="1" min="1"
                 max="100"><br>
-            <span id="settingsNotAvaliable">Settings is not avaliable in manual mode. Sorry.</span><br>
-            <button id="settingsClose" commandfor="settings" command="close" class="close">Close</button>
+            <span id="settingsNotAvaliable">Settings is not avaliable in manual mode. Sorry.<br></span>
+            <button id="settingsClose" commandfor="settings" command="close" class="close">X</button>
         </div>
     </dialog>
     <div id="resultview">
