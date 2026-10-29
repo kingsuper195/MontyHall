@@ -174,7 +174,7 @@ body {
 }
 
 .innerBox {
-    width: 100%;
+    width: calc(100% - 32px);
     height: 100%;
     padding: 16px;
     margin: 0;
