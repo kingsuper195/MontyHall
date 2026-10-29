@@ -51,7 +51,7 @@ body {
 }
 
 .infoh3 {
-    margin-top:0;
+    margin-top: 0;
 }
 
 .door {
@@ -161,6 +161,7 @@ body {
     background-color: hsl(0, 59%, 60%);
     user-select: none;
     padding: 10px;
+
 }
 
 #settingsNotAvaliable {
@@ -299,6 +300,7 @@ dialog::backdrop {
     display: inline-block;
     cursor: pointer;
     padding: 1px;
+    width: 15em;
 }
 
 #autoOpts input[type="number"] {
